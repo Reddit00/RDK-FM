@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rdk Fm - Незалежна музика</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .track-card {
+            background-color: #1e1e1e;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+        .track-title {
+            margin: 0 0 10px 0;
+            font-size: 1.5em;
+            color: #1db954;
+        }
+        .band-info {
+            color: #b3b3b3;
+            margin-bottom: 15px;
+        }
+        audio {
+            width: 100%;
+            outline: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎵 Rdk Fm</h1>
+        <p>Підтримай улюблені інді-гурти!</p>
+
+        {% for track in tracks %}
+            <div class="track-card">
+                <h3 class="track-title">{{ track.title }}</h3>
+                <div class="band-info">
+                    <strong>Виконавець:</strong> {{ track.band.name }} | 
+                    <strong>Жанр:</strong> {{ track.band.genre }}
+                </div>
+                
+                {% if track.audio_file %}
+                    <audio controls>
+                        <source src="{{ track.audio_file.url }}" type="audio/mpeg">
+                        Ваш браузер не підтримує аудіо елемент.
+                    </audio>
+                {% endif %}
+            </div>
+        {% empty %}
+            <p>У медіатеці поки немає треків. Зайдіть в адмін-панель, щоб додати перші композиції!</p>
+        {% endfor %}
+    </div>
+</body>
+</html>
