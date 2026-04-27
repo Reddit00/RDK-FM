@@ -36,12 +36,60 @@
             width: 100%;
             outline: none;
         }
+        /* Стилі для панелі навігації */
+        .top-nav {
+            background-color: #1e1e1e; 
+            padding: 15px 20px; 
+            border-radius: 8px; 
+            margin-bottom: 20px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+        }
+        .btn {
+            padding: 8px 15px; 
+            border-radius: 4px; 
+            text-decoration: none; 
+            color: white;
+            font-weight: bold;
+        }
+        .btn-green { background-color: #1db954; }
+        .btn-gray { background-color: #555; }
+        .btn-admin { background-color: #e23636; }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🎵 Rdk Fm</h1>
-        <p>Підтримай улюблені інді-гурти!</p>
+        
+        <div class="top-nav">
+            <div>
+                <h2>🎵 Rdk Fm</h2>
+                <span style="color: #b3b3b3;">Підтримай улюблені інді-гурти!</span>
+            </div>
+            
+            <div style="display: flex; gap: 10px; align-items: center;">
+                {% if user.is_authenticated %}
+                    <span style="color: #1db954; font-weight: bold;">Привіт, {{ user.username }}!</span>
+                    {% if user.is_staff %}
+                        <a href="{% url 'admin:index' %}" class="btn btn-admin">⚙️ Адмін-панель (Додати трек)</a>
+                    {% endif %}
+                {% else %}
+                    <span>Ви увійшли як гість.</span>
+                    <a href="{% url 'admin:index' %}" class="btn btn-green">Увійти</a>
+                {% endif %}
+            </div>
+        </div>
+
+        <form method="GET" action="{% url 'home' %}" style="margin-bottom: 30px; display: flex; gap: 10px;">
+            <input type="text" name="q" value="{{ query }}" placeholder="Пошук за треком або гуртом..." 
+                   style="flex-grow: 1; padding: 10px; border-radius: 4px; border: 1px solid #333; background-color: #2c2c2c; color: white;">
+            
+            <button type="submit" class="btn btn-green" style="border: none; cursor: pointer;">Шукати</button>
+            
+            {% if query %}
+                <a href="{% url 'home' %}" class="btn btn-gray">Скинути</a>
+            {% endif %}
+        </form>
 
         {% for track in tracks %}
             <div class="track-card">
@@ -52,15 +100,20 @@
                 </div>
                 
                 {% if track.audio_file %}
-                    <audio controls>
+                    <audio controls preload="none">
                         <source src="{{ track.audio_file.url }}" type="audio/mpeg">
                         Ваш браузер не підтримує аудіо елемент.
                     </audio>
+                {% else %}
+                    <p><em>Аудіофайл тимчасово недоступний</em></p>
                 {% endif %}
             </div>
         {% empty %}
-            <p>У медіатеці поки немає треків. Зайдіть в адмін-панель, щоб додати перші композиції!</p>
+            <div class="track-card">
+                <p>У медіатеці поки немає треків або за вашим пошуком нічого не знайдено.</p>
+            </div>
         {% endfor %}
+        
     </div>
 </body>
 </html>
