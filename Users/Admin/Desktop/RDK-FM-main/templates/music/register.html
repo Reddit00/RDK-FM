@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<title>Реєстрація — RDK FM</title>
+
+{% load static %}
+
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=UnifrakturCook:wght@700&display=swap" rel="stylesheet">
+
+<style>
+body{
+    margin:0;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:#000;
+    font-family:'Cinzel', serif;
+    color:#d6cfc7;
+    position:relative;
+    overflow:hidden;
+}
+
+/* grain */
+body::before{
+    content:'';
+    position:fixed;
+    inset:0;
+    opacity:0.05;
+    pointer-events:none;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* СФЕРА */
+body::after{
+    content:'';
+    position:fixed;
+    top:50%;
+    left:50%;
+    width:500px;
+    height:500px;
+    transform:translate(-50%,-50%);
+    background:url("{% static '123.jpg' %}") no-repeat center;
+    background-size:contain;
+    opacity:0.22;
+    filter:blur(2px) brightness(1.4);
+    pointer-events:none;
+    z-index:0;
+}
+
+.auth-box{
+    position:relative;
+    z-index:2;
+    width:320px;
+    padding:30px;
+    background:linear-gradient(#0a0a0a,#000);
+    border:1px solid #1f1f1f;
+    box-shadow:0 0 40px rgba(122,15,15,0.25);
+}
+
+h2{
+    text-align:center;
+    color:#c11212;
+    margin-top:0;
+    font-family:'UnifrakturCook';
+    letter-spacing:2px;
+}
+
+/* FORM */
+p{margin-bottom:12px;}
+
+label{
+    display:block;
+    font-size:12px;
+    color:#777;
+}
+
+input{
+    width:100%;
+    padding:10px;
+    background:#050505;
+    border:1px solid #222;
+    color:white;
+    outline:none;
+}
+
+input:focus{
+    border-color:#c11212;
+    box-shadow:0 0 10px rgba(193,18,18,0.4);
+}
+
+/* BUTTON */
+.btn{
+    width:100%;
+    padding:12px;
+    margin-top:10px;
+    background:#7a0f0f;
+    border:none;
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.btn:hover{
+    background:#c11212;
+    box-shadow:0 0 20px rgba(193,18,18,0.6);
+}
+
+/* LINK */
+a{
+    color:#c11212;
+    text-decoration:none;
+}
+
+a:hover{
+    text-shadow:1px 0 red,-1px 0 blue;
+}
+</style>
+</head>
+
+<body>
+
+<div class="auth-box">
+
+    <h2>Реєстрація</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn">Створити акаунт</button>
+    </form>
+
+    <p style="text-align:center;font-size:13px;margin-top:15px;">
+        <a href="{% url 'login' %}">Вже є акаунт? Увійти</a>
+    </p>
+
+</div>
+
+</body>
+</html>

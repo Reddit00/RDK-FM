@@ -1,0 +1,156 @@
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<title>Вхід — RDK FM</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=UnifrakturCook:wght@700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+
+<style>
+:root{
+    --bg:#000;
+    --card:#0f0f0f;
+    --blood:#7a0f0f;
+    --blood-light:#c11212;
+    --text:#d6cfc7;
+    --muted:#666;
+    --border:#1f1f1f;
+}
+
+body{
+    margin:0;
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    background:#000;
+    color:var(--text);
+    font-family:'Cinzel', serif;
+}
+
+/* grain */
+body::before{
+    content:'';
+    position:fixed;
+    inset:0;
+    opacity:0.05;
+    pointer-events:none;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* LOGO */
+.logo{
+    font-family:'UnifrakturCook';
+    font-size:26px;
+    color:var(--blood-light);
+    margin-bottom:20px;
+    letter-spacing:2px;
+}
+
+/* CARD */
+.auth-card{
+    background:linear-gradient(#0a0a0a,#000);
+    padding:35px;
+    width:350px;
+    border:1px solid var(--border);
+    box-shadow:0 0 40px rgba(122,15,15,0.25);
+}
+
+/* TITLE */
+h2{
+    margin-top:0;
+    text-align:center;
+    color:var(--blood-light);
+    letter-spacing:2px;
+}
+
+/* FORM */
+p{margin-bottom:15px;}
+
+label{
+    display:block;
+    font-size:13px;
+    color:var(--muted);
+    margin-bottom:5px;
+}
+
+input{
+    width:100%;
+    padding:10px;
+    background:#050505;
+    border:1px solid var(--border);
+    color:white;
+    outline:none;
+    transition:0.2s;
+}
+
+input:focus{
+    border-color:var(--blood-light);
+    box-shadow:0 0 10px rgba(193,18,18,0.5);
+}
+
+/* BUTTON */
+.btn{
+    width:100%;
+    margin-top:15px;
+    padding:12px;
+    background:var(--blood);
+    border:none;
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.btn:hover{
+    background:var(--blood-light);
+    box-shadow:0 0 20px rgba(193,18,18,0.6);
+}
+
+/* FOOTER */
+.footer{
+    text-align:center;
+    margin-top:20px;
+    font-size:13px;
+    color:var(--muted);
+}
+
+.footer a{
+    color:var(--blood-light);
+    text-decoration:none;
+}
+
+.footer a:hover{
+    text-shadow:1px 0 red,-1px 0 blue;
+}
+
+/* glitch */
+.glitch:hover{
+    text-shadow:2px 0 red,-2px 0 blue;
+}
+</style>
+</head>
+
+<body>
+
+<div class="logo glitch">RDK FM</div>
+
+<div class="auth-card">
+    <h2 class="glitch">Вхід</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn">Увійти</button>
+    </form>
+
+    <div class="footer">
+        Немає акаунту? 
+        <a href="{% url 'register' %}">Реєстрація</a>
+        <br><br>
+        <a href="{% url 'home' %}" style="color:#777;">← На головну</a>
+    </div>
+</div>
+
+</body>
+</html>
